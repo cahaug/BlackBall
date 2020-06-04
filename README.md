@@ -5,4 +5,4 @@ A robust and permanent blockchain solution for tracking rights abuses and killer
 
 Based on blockchain by dvf.  Used under MIT license.
 
-https://blackball.co
+https://blackball.co/chain
