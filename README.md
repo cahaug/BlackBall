@@ -1,5 +1,5 @@
 # Blackball
-A robust and permanent blockchain solution for tracking rights abuses and killer cops.
+An in-development blockchain solution to tracking law enforcement civil rights abuses.
 
 "A Black Ball for the Blue Wall"
 
