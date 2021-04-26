@@ -6,6 +6,8 @@ import DOMPurify from 'dompurify'
 // pass in props.преступникИД
 
 //build a condition for no request when 0 passed in
+// dont forget comments get pulled up from here
+
 
 function ViewCrim(props){
     const [ loading, setLoading ] = useState(true)
@@ -48,12 +50,19 @@ function ViewCrim(props){
         depravityScore:0,
         offenderComment:''
     })
+    const [ dsc, setDsc ] = useState([])
+
+    
     let isFetching = false
 
     useEffect(async () => {
         if(isFetching === false && loading === true){
             isFetching = true
-
+            // if id not 0
+            // retrieve dsb & dsc, iterate through
+            //array of all crimeevents for crimnial
+            // each crimeevent gets own rendered component
+            // pass in props.crimeEventData obj of ced detail
         }
     })
 
