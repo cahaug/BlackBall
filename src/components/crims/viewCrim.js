@@ -207,7 +207,7 @@ function ViewCrim(props){
                         </div>
                         <br />
                         {/* verified response */}
-                        {showingStatus ? <span onClick={showVerRespDrawerToggle}>🔼 verified response </span>:<span onClick={showVerRespDrawerToggle}>🔽 verified response</span>}
+                        {showingVerifiedResponse ? <span onClick={showVerRespDrawerToggle}>🔼 verified response </span>:<span onClick={showVerRespDrawerToggle}>🔽 verified response</span>}
                         <div className="showVerResp">
                             {dsb.offenderComment !== null? <textarea value={dsb.offenderComment}></textarea>: <p>How to Respond: Link Coming Soon</p>}
                         </div>
