@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import DOMPurify from 'dompurify'
+import DisplayCrime from './displayCrime'
 
 // pulled up by clicking on a searched crim or top10 entry
 // pass in props.преступникИД
@@ -51,8 +52,6 @@ function ViewCrim(props){
         depravityScore:0,
         offenderComment:''
     })
-    // crimeEventsGoHere in dsc
-    const [ dsc, setDsc ] = useState([])
     const [ viewingIndividual, setViewingIndividual ] = useState(false)
     const [ showingStatus, setShowingStatus ] = useState(false)
     const [ showingInformation, setShowingInformation ] = useState(false)
@@ -118,20 +117,33 @@ function ViewCrim(props){
     }
 
     let isFetching = false
+    const crimId = props.преступникИД
 
     useEffect(async () => {
         if(isFetching === false && loading === true){
             isFetching = true
             // if id not 0
-            // retrieve dsb & dsc, iterate through
-            //array of all crimeevents for crimnial
-            // each crimeevent gets own rendered component
-            // pass in props.crimeEventData obj of ced detail
+            if(crimId!==0){
+                const dsbRet = await axios.post('')
+                const dscRet = await axios.post('')
+                setDsb(dsbRet.data)
+                const dscProcessing = dscRet.data.forEach((crime) => {
+                    return (
+                        <div key={crime.событиеИД}>
+                            <DisplayCrime crime={crime} />
+                        </div>
+                    )
+                })
+                setDsc(dscProcessing)
+                setProcessedCrimes(dscProcessing)
+                // retrieve dsb & dsc, iterate through
+                //array of all crimeevents for crimnial
+                // each crimeevent gets own rendered component
+                // pass in props.crimeEventData obj of ced detail
+                setLoading(false)
+            }
         }
     })
-
-
-    const crimId = props.преступникИД
 
     if(crimId===0){
         return (
@@ -151,17 +163,17 @@ function ViewCrim(props){
                 {/*🤠 капустаПродукт 🥬 La Lechuga 🥬 yksinmatkustaia 🤠*/}
                 <div> 
                     <div>
-                        <p>{dsb.legalName}, {dsb.estimatedAge}</p>
-                        <p>{dsb.firstName} {dsb.middleName}</p>
-                        <p>{dsb.lastName}</p>
-                        <p>{dsb.probableLocation}</p>
-                        <p>{dsb.dateOfBirth}</p>
+                        <p>{DOMPurify.sanitize(dsb.legalName)}, {DOMPurify.sanitize(dsb.estimatedAge)}</p>
+                        <p>{DOMPurify.sanitize(dsb.firstName)} {DOMPurify.sanitize(dsb.middleName)}</p>
+                        <p>{DOMPurify.sanitize(dsb.lastName)}</p>
+                        <p>{DOMPurify.sanitize(dsb.probableLocation)}</p>
+                        <p>{DOMPurify.sanitize(dsb.dateOfBirth)}</p>
                     </div>
-                    {dsb.pictureURL !== null ? <img src={dsb.pictureURL} alt={dsb.legalName} />:null}
+                    {dsb.pictureURL !== null ? <img src={DOMPurify.sanitize(dsb.pictureURL)} alt={DOMPurify.sanitize(dsb.legalName)} />:null}
                 </div>
                 <div>
-                    <p>Views: {dsb.profileViews}</p>
-                    <p>DepravityScore™: {dsb.depravityScore}</p>
+                    <p>Views: {DOMPurify.sanitize(dsb.profileViews)}</p>
+                    <p>DepravityScore™: {DOMPurify.sanitize(dsb.depravityScore)}</p>
                     {/* <button onClick="take to comments1">Comments for Crim</button> */}
                 </div>
                 {/* deployable tab here for individual, crime */}
@@ -173,43 +185,43 @@ function ViewCrim(props){
                         {/* status */}
                         {showingStatus ? <span onClick={showStatusDrawerToggle}>🔼 status </span>:<span onClick={showStatusDrawerToggle}>🔽 status</span>}
                         <div className="showStatus">
-                            <p>KPBHOCID: {dsb.преступникИД}</p>
-                            <p>Created: {dsb.создано_на}</p>
-                            <p>Reformed{`?`}: {dsb.reformed}</p>
-                            <p>Has Family{`?`}: {dsb.hasFamily}</p>
-                            <p>Alive{`?`}: {dsb.alive}</p>
-                            <p>At Large{`?`}: {dsb.atLarge}</p>
-                            <p>Incarcerated{`?`}: {dsb.incarcerated}</p>
-                            <p>Charges Filed{`?`}: {dsb.chargesFiled}</p>
-                            <p>On Bail{`?`}: {dsb.onBail}</p>
-                            <p>Acquitted{`?`}: {dsb.acquitted}</p>
-                            <p>Convicted{`?`}: {dsb.convicted}</p>
-                            <p>Sentenced{`?`}: {dsb.sentenced}</p>
-                            <p>Appealed{`?`}: {dsb.appeal}</p>
+                            <p>KPBHOCID: {DOMPurify.sanitize(dsb.преступникИД)}</p>
+                            <p>Created: {DOMPurify.sanitize(dsb.создано_на)}</p>
+                            <p>Reformed{`?`}: {DOMPurify.sanitize(dsb.reformed)}</p>
+                            <p>Has Family{`?`}: {DOMPurify.sanitize(dsb.hasFamily)}</p>
+                            <p>Alive{`?`}: {DOMPurify.sanitize(dsb.alive)}</p>
+                            <p>At Large{`?`}: {DOMPurify.sanitize(dsb.atLarge)}</p>
+                            <p>Incarcerated{`?`}: {DOMPurify.sanitize(dsb.incarcerated)}</p>
+                            <p>Charges Filed{`?`}: {DOMPurify.sanitize(dsb.chargesFiled)}</p>
+                            <p>On Bail{`?`}: {DOMPurify.sanitize(dsb.onBail)}</p>
+                            <p>Acquitted{`?`}: {DOMPurify.sanitize(dsb.acquitted)}</p>
+                            <p>Convicted{`?`}: {DOMPurify.sanitize(dsb.convicted)}</p>
+                            <p>Sentenced{`?`}: {DOMPurify.sanitize(dsb.sentenced)}</p>
+                            <p>Appealed{`?`}: {DOMPurify.sanitize(dsb.appeal)}</p>
                         </div>
                         <br />
                         {/* information */}
                         {showingInformation ? <span onClick={showInfoDrawerToggle}>🔼 information </span>:<span onClick={showInfoDrawerToggle}>🔽 information</span>}
                         <div className="showInformatzie">
-                            <p>Highest Level of Education: {dsb.highestLevelOfEdu}</p>
-                            <p>Primary Education: {dsb.primaryEdu}</p>
-                            <p>Secondary Education: {dsb.secondaryEdu}</p>
-                            <p>Primary Employment: {dsb.primaryEmployment}</p>
-                            <p>Secondary Employment: {dsb.secondaryEmployment}</p>
-                            <p>Historic Employment: {dsb.historicEmployment}</p>
-                            <p>Trade: {dsb.trade}</p>
-                            <p>Awards {`&`} Accolades: {dsb.awardsAccolades}</p>
-                            <p>Languages Spoken: {dsb.languagesSpoken}</p>
-                            <p>Nationality: {dsb.nationality}</p>
-                            <p>Biography: <textarea value={dsb.biography}></textarea></p>
-                            <p>Socioeconomic Background: <textarea value={dsb.socioeconomicBG}></textarea></p>
-                            <p>Demographic Background: <textarea value={dsb.demographicBG}></textarea></p>
+                            <p>Highest Level of Education: {DOMPurify.sanitize(dsb.highestLevelOfEdu)}</p>
+                            <p>Primary Education: {DOMPurify.sanitize(dsb.primaryEdu)}</p>
+                            <p>Secondary Education: {DOMPurify.sanitize(dsb.secondaryEdu)}</p>
+                            <p>Primary Employment: {DOMPurify.sanitize(dsb.primaryEmployment)}</p>
+                            <p>Secondary Employment: {DOMPurify.sanitize(dsb.secondaryEmployment)}</p>
+                            <p>Historic Employment: {DOMPurify.sanitize(dsb.historicEmployment)}</p>
+                            <p>Trade: {DOMPurify.sanitize(dsb.trade)}</p>
+                            <p>Awards {`&`} Accolades: {DOMPurify.sanitize(dsb.awardsAccolades)}</p>
+                            <p>Languages Spoken: {DOMPurify.sanitize(dsb.languagesSpoken)}</p>
+                            <p>Nationality: {DOMPurify.sanitize(dsb.nationality)}</p>
+                            <p>Biography: <textarea value={DOMPurify.sanitize(dsb.biography)}></textarea></p>
+                            <p>Socioeconomic Background: <textarea value={DOMPurify.sanitize(dsb.socioeconomicBG)}></textarea></p>
+                            <p>Demographic Background: <textarea value={DOMPurify.sanitize(dsb.demographicBG)}></textarea></p>
                         </div>
                         <br />
                         {/* verified response */}
                         {showingVerifiedResponse ? <span onClick={showVerRespDrawerToggle}>🔼 verified response </span>:<span onClick={showVerRespDrawerToggle}>🔽 verified response</span>}
                         <div className="showVerResp">
-                            {dsb.offenderComment !== null? <textarea value={dsb.offenderComment}></textarea>: <p>How to Respond: Link Coming Soon</p>}
+                            {dsb.offenderComment !== null? <textarea value={DOMPurify.sanitize(dsb.offenderComment)}></textarea>: <p>How to Respond: Link Coming Soon</p>}
                         </div>
                     </div>
                     <br />
@@ -220,8 +232,6 @@ function ViewCrim(props){
                     </div>
                 </div>
                 {/*🤠 капустаПродукт 🥬 La Lechuga 🥬 yksinmatkustaia 🤠*/}
-                {/* very interesting move, cia joe biden. real 4d chess. impressed. */}
-                {/* working hard to preempt deadline as you can see. hmu @ safeway or on IG lol, if u want me to lead one of those new teams you're building :) */}
             </div>
         )
     }
