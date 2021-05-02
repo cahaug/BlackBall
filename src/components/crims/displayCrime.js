@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import DOMPurify from 'dompurify'
+import CommentMaster9001 from '../comments/commentMaster'
 
 function DisplayCrime(props){
     const [ loading, setLoading ] = useState(true)
     const [ evidence, setEvidence ] = useState([])
     const [ isMinified, setIsMinified ] = useState(true)
+    const [ viewingCom, setViewingCom ] = useState({
+        ty:'un',
+        cid:0
+    })
     
     const crime = {
         crimeId: props.crime.событиеИД,
@@ -57,14 +62,6 @@ function DisplayCrime(props){
         setIsMinified(true)
     }
 
-    const toggleComments2 = () => {
-        // myös myöhemmin
-    }
-
-    const toggleComments3 = () => {
-        // myöhemmin
-    }
-
     let isFetching = false
 
     useEffect(async () => {
@@ -82,7 +79,7 @@ function DisplayCrime(props){
                             <p>Added: {DOMPurify.sanitize(evidence.создано_на)}</p>
                             <p>Evidence Views: {DOMPurify.sanitize(evidence.itemViews)}</p>
                             <p>Relevancy Score: {DOMPurify.sanitize(evidence.relevancyScore)}</p>
-                            <button type="button" onClick={toggleComments3}>Comments</button>
+                            <button type="button" onClick={()=>{setViewingCom({ty:'ko',cid:DOMPurify.sanitize(evidence.данныеИД)}); document.getElementById('comments').style.display = "block";}}>Comments</button>
                             <button type="button" className="expandTag">▼</button>
                             <div className="expand">
                                 <p>Link: <a href={DOMPurify.sanitize(evidence.link)} alt={DOMPurify.sanitize(evidence.link)}>{DOMPurify.sanitize(evidence.link)}</a></p>
@@ -143,7 +140,7 @@ function DisplayCrime(props){
                         <p>Views: {DOMPurify.sanitize(crime.eventViews)}</p>
                         <p>DepravityScore™: {DOMPurify.sanitize(crime.depravityScore)}</p>
                         <p>Justice Score: {DOMPurify.sanitize(crime.justiceScore)}</p>
-                        <button type="button" onClick={toggleComments2}>Discuss</button>
+                        <button type="button" onClick={showComments2}>Discuss</button>
                         <button type="button" onClick={expandMinified}>Show Full</button>
                     </div>
                     :
@@ -246,13 +243,16 @@ function DisplayCrime(props){
                                 </div>
                             </div>
                         </p>
-                        <button type="button" onClick={toggleComments2}>Discuss</button>
+                        <button type="button" onClick={()=>{setViewingCom({ty:'ka',cid:DOMPurify.sanitize(crime.crimeId)}); document.getElementById('comments').style.display = "block";}}>Discuss</button>
                         <button type="button" onClick={toMinified}>Show Less</button>
                     </div>
                     }
                 </div>
                 <div>
                     {evidence}
+                </div>
+                <div id="comments">
+                    <CommentMaster9001 commentType={viewingCom.ty} forId={viewingCom.cid} />
                 </div>
             </div>
         )

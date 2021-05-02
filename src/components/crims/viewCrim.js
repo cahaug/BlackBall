@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import DOMPurify from 'dompurify'
 import DisplayCrime from './displayCrime'
+import CommentMaster9001 from '../comments/commentMaster'
+
 
 // pulled up by clicking on a searched crim or top10 entry
 // pass in props.преступникИД
@@ -58,7 +60,7 @@ function ViewCrim(props){
     const [ showingVerifiedResponse, setShowingVerifiedResponse ] = useState(false)
     const [ viewingCrime, setViewingCrime ] = useState(false)
     const [ processedCrimes, setProcessedCrimes ] = useState([])
-
+    const [ viewingCommentId, setViewingCommentId ] = useState(0)
 
     
     const viewIndividualDrawerToggle = () => {
@@ -143,7 +145,7 @@ function ViewCrim(props){
                 setLoading(false)
             }
         }
-    })
+    }, [props.преступникИД])
 
     if(crimId===0){
         return (
@@ -174,7 +176,7 @@ function ViewCrim(props){
                 <div>
                     <p>Views: {DOMPurify.sanitize(dsb.profileViews)}</p>
                     <p>DepravityScore™: {DOMPurify.sanitize(dsb.depravityScore)}</p>
-                    {/* <button onClick="take to comments1">Comments for Crim</button> */}
+                    <button type="button" onClick={()=>{setViewingCommentId(DOMPurify.sanitize(dsb.преступникИД));document.getElementById('comments1').style.display = "block";}}>Comments</button>
                 </div>
                 {/* deployable tab here for individual, crime */}
                 <div>
@@ -230,6 +232,9 @@ function ViewCrim(props){
                         {/* process crimes in useeffect */}
                         {processedCrimes}
                     </div>
+                </div>
+                <div id="comments1">
+                    <CommentMaster9001 commentType='yy' forId={viewingCommentId} />
                 </div>
                 {/*🤠 капустаПродукт 🥬 La Lechuga 🥬 yksinmatkustaia 🤠*/}
             </div>
