@@ -60,7 +60,10 @@ function ViewCrim(props){
     const [ showingVerifiedResponse, setShowingVerifiedResponse ] = useState(false)
     const [ viewingCrime, setViewingCrime ] = useState(false)
     const [ processedCrimes, setProcessedCrimes ] = useState([])
-    const [ viewingCommentId, setViewingCommentId ] = useState(0)
+    const [ viewingComment, setViewingComment ] = useState({
+        ty:'un',
+        cid:0
+    })
 
     
     const viewIndividualDrawerToggle = () => {
@@ -176,7 +179,7 @@ function ViewCrim(props){
                 <div>
                     <p>Views: {DOMPurify.sanitize(dsb.profileViews)}</p>
                     <p>DepravityScore™: {DOMPurify.sanitize(dsb.depravityScore)}</p>
-                    <button type="button" onClick={()=>{setViewingCommentId(DOMPurify.sanitize(dsb.преступникИД));document.getElementById('comments1').style.display = "block";}}>Comments</button>
+                    <button type="button" onClick={()=>{setViewingComment({ty:'yy', cid:DOMPurify.sanitize(dsb.преступникИД)});document.getElementById('comments1').style.display = "block";}}>Comments</button>
                 </div>
                 {/* deployable tab here for individual, crime */}
                 <div>
@@ -234,7 +237,7 @@ function ViewCrim(props){
                     </div>
                 </div>
                 <div id="comments1">
-                    <CommentMaster9001 commentType='yy' forId={viewingCommentId} />
+                    <CommentMaster9001 commentType={viewingComment.ty} forId={viewingComment.cid} />
                 </div>
                 {/*🤠 капустаПродукт 🥬 La Lechuga 🥬 yksinmatkustaia 🤠*/}
             </div>
