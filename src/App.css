@@ -50,6 +50,18 @@ hr {
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
+#thebox {
+  display: none;
+  position: fixed;
+  z-index: 0.8;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: whitesmoke;
+}
 .comments1 {
   display: none;
   position: fixed;
