@@ -50,3 +50,61 @@ hr {
     width:65%;
     margin:15px 0;
 }
+
+.active {
+    // border: 1px solid red;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    
+}
+
+.expand {
+    // text-align:left;
+    padding: 0 5px;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.2s ease-out;
+    // white-space: pre-line;
+    // word-wrap: break-word;
+    // border:1px solid green;
+}
+
+#thebox {
+    display: none;
+    position: fixed;
+    z-index: .8;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: whitesmoke;
+}
+
+.comments1 {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: whitesmoke;
+}
+
+.comments {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: whitesmoke;
+}
